@@ -1,0 +1,20 @@
+﻿@page
+@model Bank.Pages.Transactions.WithdrawModel
+@{
+	Layout = "_DashboardLayout";
+}
+
+<h1>Withdraw</h1>
+<h3>Balance: @Model.WithdrawData.Balance</h3>
+<form method="post">
+    <div class="form-group">
+        <label asp-for="WithdrawData.Amount">Amount</label>
+        <input class="form-control" asp-for="WithdrawData.Amount" />
+        <span class="text-danger" asp-validation-for="WithdrawData.Amount"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Withdraw</button>
+    <a class="btn btn-secondary"
+       asp-page="/Transactions/Transaction" asp-route-accountId="@Model.AccountId" asp-route-customerId="@Model.CustomerId">
+        Back
+    </a>
+</form>

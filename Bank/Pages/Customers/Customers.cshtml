@@ -1,0 +1,182 @@
+﻿@page
+@model Bank.Pages.Customers.CustomersModel
+@{
+	Layout = "_DashboardLayout";
+}
+
+
+
+<div class="row">
+    <div class="col-md-8">
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success">
+                @TempData["SuccessMessage"]
+            </div>
+        }
+        <h3>All Customers</h3>
+        <h5>Page @Model.CurrentPage</h5>
+    </div>
+
+    <div class="col-md-4 text-right">
+        <form method="get" class="form-inline justify-content-end">
+            <input class="form mr-2" type="search" placeholder="Search" asp-for="@Model.SearchBox">
+            <button class="btn btn-primary" type="submit">Search</button>
+        </form>
+        <div class="mt-2">
+            <a class="btn btn-secondary" asp-page="/Dashboard/IndexDashboard">Back</a>
+            <a class="btn btn-success" asp-page="/Customer/NewCustomer">Add Customer</a>
+        </div>
+    </div>
+</div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">
+                First name
+                <a asp-page="/Customers/Customers"
+                   asp-route-searchBox="@Model.SearchBox"
+                   asp-route-sortColumn="Name"
+                   asp-route-sortOrder="asc"
+                   style="text-decoration:none">
+                    <i class="fa-solid fa-angle-up"></i>
+
+                </a>
+                <a asp-page="/Customers/Customers"
+                   asp-route-searchBox="@Model.SearchBox"
+                   asp-route-sortColumn="Name"
+                   asp-route-sortOrder="desc"
+                   style="text-decoration:none">
+                    <i class="fa-solid fa-angle-down"></i>
+                </a>
+            </th>
+            <th scope="col">
+                NationalId
+                <a asp-page="/Customers/Customers"
+                   asp-route-searchBox="@Model.SearchBox"
+                   asp-route-sortColumn="NationalId"
+                   asp-route-sortOrder="asc"
+                   style="text-decoration:none">
+                    <i class="fa-solid fa-angle-up"></i>
+
+                </a>
+                <a asp-page="/Customers/Customers"
+                   asp-route-searchBox="@Model.SearchBox"
+                   asp-route-sortColumn="NationalId"
+                   asp-route-sortOrder="desc"
+                   style="text-decoration:none">
+                    <i class="fa-solid fa-angle-down"></i>
+                </a>
+            </th>
+            <th scope="col">
+                City
+                <a asp-page="/Customers/Customers"
+                   asp-route-searchBox="@Model.SearchBox"
+                   asp-route-sortColumn="City"
+                   asp-route-sortOrder="asc"
+                   style="text-decoration:none">
+                    <i class="fa-solid fa-angle-up"></i>
+
+                </a>
+                <a asp-page="/Customers/Customers"
+                   asp-route-searchBox="@Model.SearchBox"
+                   asp-route-sortColumn="City"
+                   asp-route-sortOrder="desc"
+                   style="text-decoration:none">
+                    <i class="fa-solid fa-angle-down"></i>
+                </a>
+            </th>
+            <th scope="col">
+                StreetAdress
+                <a asp-page="/Customers/Customers"
+                   asp-route-searchBox="@Model.SearchBox"
+                   asp-route-sortColumn="StreetAddress"
+                   asp-route-sortOrder="asc"
+                   style="text-decoration:none">
+                    <i class="fa-solid fa-angle-up"></i>
+
+                </a>
+                <a asp-page="/Customers/Customers"
+                   asp-route-searchBox="@Model.SearchBox"
+                   asp-route-sortColumn="StreetAddress"
+                   asp-route-sortOrder="desc"
+                   style="text-decoration:none">
+                    <i class="fa-solid fa-angle-down"></i>
+                </a>
+            </th>
+
+            <th></th>
+
+
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        @foreach (var cust in Model.customers)
+        {
+            <tr>
+                <td>@cust.Id</td>
+                <td>@cust.Name</td>
+                <td>@cust.NationalId</td>
+                <td>@cust.City</td>
+                <td>@cust.StreetAddress</td>
+                <td></td>
+                <td><a asp-page="/Customer/Customer" asp-route-id="@cust.Id" class="btn btn-primary">View Details</a></td>
+            </tr>
+        }
+        <tr>
+            <td>
+                @if (Model.CurrentPage != 1)
+                {
+                    <a class="btn btn-secondary"
+                       asp-page="/Customers/Customers" asp-route-customerId="@Model.CustomerId"
+                       asp-route-searchBox="@Model.SearchBox"
+                       asp-route-sortColumn="@Model.SortColumn"
+                       asp-route-sortOrder="@Model.SortOrder"
+                       asp-route-pageNo="@(Model.CurrentPage-1)">
+                        Prev
+                    </a>
+                }
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+                <a class="btn btn-secondary"
+                   asp-page="/Customers/Customers" asp-route-customerId="@Model.CustomerId"
+                   asp-route-searchBox="@Model.SearchBox"
+                   asp-route-sortColumn="@Model.SortColumn"
+                   asp-route-sortOrder="@Model.SortOrder"
+                   asp-route-pageNo="@(Model.CurrentPage+1)">
+                    Next
+                </a>
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+        </tr>
+
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        window.onload = function () {
+            setTimeout(function () {
+                var messageElement = document.getElementById('successMessage');
+                if (messageElement) {
+                    messageElement.style.opacity = 0;
+                    setTimeout(function () {
+                        messageElement.style.display = 'none';
+                    }, 600);
+                }
+            }, 3000);
+        };
+    </script>
+}

@@ -1,0 +1,75 @@
+﻿@page
+@model Bank.Pages.Customer.EditCustomerModel
+@{
+	Layout = "_DashboardLayout";
+}
+
+
+<div class="card">
+    <div class="card-header">
+        <h1>Edit Customer</h1>
+    </div>
+    <div class="card-body">
+        <form method="post">
+            <div class="form-group">
+                <label asp-for="CustomerVm.FirstName">Firstname</label>
+                <input class="form-control" asp-for="CustomerVm.FirstName">
+                <span asp-validation-for="CustomerVm.FirstName" class="text-danger"></span>
+            </div><div class="form-group">
+                <label asp-for="CustomerVm.LastName">Lastname</label>
+                <input class="form-control" asp-for="CustomerVm.LastName">
+                <span asp-validation-for="CustomerVm.LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CustomerVm.Emailaddress">Email</label>
+                <input class="form-control" asp-for="CustomerVm.Emailaddress">
+                <span asp-validation-for="CustomerVm.Emailaddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CustomerVm.StreetAdress">StreetAddress</label>
+                <input class="form-control" asp-for="CustomerVm.StreetAdress">
+                <span asp-validation-for="CustomerVm.StreetAdress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CustomerVm.PostalCode">Zipcode</label>
+                <input class="form-control" asp-for="CustomerVm.PostalCode">
+                <span asp-validation-for="CustomerVm.PostalCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CustomerVm.City">City</label>
+                <input class="form-control" asp-for="CustomerVm.City">
+                <span asp-validation-for="CustomerVm.City" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CustomerVm.Country">Country</label>
+                <select class="form-control" asp-for="CustomerVm.Country" asp-items="Model.Countries"></select>
+                <span asp-validation-for="CustomerVm.Country" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CustomerVm.CountryCode">Country Code</label>
+                <input class="form-control" asp-for="CustomerVm.CountryCode" readonly>
+                <span asp-validation-for="CustomerVm.CountryCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CustomerVm.Birthday">Birthday</label>
+                <input class="form-control" asp-for="CustomerVm.Birthday">
+                <span asp-validation-for="CustomerVm.Birthday" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CustomerVm.Gender">Gender</label>
+                <select class="form-control" asp-for="CustomerVm.Gender" asp-items="Model.TwoGenders">
+                </select>
+
+                <span asp-validation-for="CustomerVm.Gender" class="text-danger"></span>
+            </div>
+            <div style="margin-top: 15px">
+                <a class="btn btn-secondary"
+                   asp-page="/Customer/Customer" asp-route-id="@Model.CustomerVm.Id">
+                    Back
+                </a>
+                <button type="submit" class="btn btn-success">Update</button>
+            </div>
+        </form>
+    </div>
+</div>
+

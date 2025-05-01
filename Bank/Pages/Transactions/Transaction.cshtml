@@ -1,0 +1,118 @@
+﻿@page
+@model Bank.Pages.Transactions.TransactionModel
+@{
+	Layout = "_DashboardLayout";
+}
+
+
+<div class="container mt-3">
+    <div class="row align-items-center">
+        <div class="col">
+            <h1>Transactions</h1>
+        </div>
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success">
+                @TempData["SuccessMessage"]
+            </div>
+        }
+        <div class="col-auto">
+            <a asp-page="Transfer" asp-route-accountId="@Model.AccountId" asp-route-CustomerId="@Model.CustomerId" class="btn btn-link">
+                <i class='bx bx-transfer' style="font-size: 24px;"></i> Transfer
+            </a>
+
+            <a asp-page="Withdraw" asp-route-accountId="@Model.AccountId" asp-route-CustomerId="@Model.CustomerId" class="btn btn-link">
+                <i class='bx bx-money-withdraw' style="font-size: 24px;"></i> Withdraw
+            </a>
+            <a asp-page="Deposit" asp-route-accountId="@Model.AccountId" asp-route-CustomerId="@Model.CustomerId" class="btn btn-link">
+                <i class='bx bx-plus-circle' style="font-size: 24px;"></i> Deposit
+            </a>
+           
+        </div>
+
+    </div>
+</div>
+
+
+@if (Model.Transactions != null && Model.Transactions.Any())
+{
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Account</th>
+                        <th>Transaction date</th>
+                        <th>Amount</th>
+                        <th>Balance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var transaction in Model.Transactions)
+                    {
+                        <tr>
+                            <td>@transaction.AccountId</td>
+                            <td>@transaction.Date</td>
+                            <td>$ @transaction.Amount</td>
+                            <td>$ @transaction.Balance</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <a class="btn btn-secondary"
+               asp-page="/Customer/Customer" asp-route-id="@Model.CustomerId">
+                Back
+            </a>
+            <button id="show-more" class="btn btn-primary">Show more</button>
+        </div>
+    </div>
+}
+else
+{
+    <p>No transactions found...</p>
+    <a class="btn btn-secondary"
+       asp-page="/Customer/Customer" asp-route-id="@Model.CustomerId">
+        Back
+    </a>
+}
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var pageIndex = 0;
+            var accountId = '@Model.AccountId';
+
+            $('#show-more').click(function () {
+                console.log('hejsant');
+                pageIndex++;
+                $.ajax({
+                    url: '/Transactions/Transaction?handler=ShowMore',
+                    data: { accountId: accountId, pageIndex: pageIndex },
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (transactions) {
+                        if (transactions.length > 0) {
+                            transactions.forEach(function (transaction) {
+                                $('tbody').append(
+                                    '<tr>' +
+                                    '<td>' + transaction.accountId + '</td>' +
+                                    '<td>' + new Date(transaction.date).toLocaleDateString() + '</td>' +
+                                    '<td>$ ' + transaction.amount.toLocaleString() + '</td>' +
+                                    '<td>$ ' + transaction.balance.toLocaleString() + '</td>' +
+                                    '</tr>'
+                                );
+                            });
+                        } else {
+                            $('#show-more').hide();
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error fetching data:', error);
+                        alert('Det gick inte att ladda fler transaktioner.');
+                    }
+                });
+            });
+        });
+    </script>
+
+}

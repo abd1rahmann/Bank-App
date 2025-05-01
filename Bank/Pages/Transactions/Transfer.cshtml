@@ -1,0 +1,40 @@
+﻿@page
+@model Bank.Pages.Transactions.TransferModel
+@{
+    Layout = "_DashboardLayout";
+}
+
+<h1>Transfer</h1>
+
+<form method="post">
+    <input type="hidden" asp-for="TransferData.FromAccountId" value="@Model.TransferData.FromAccountId" />
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+
+    <div class="form-group">
+        <label asp-for="TransferData.ToAccountId">To Account</label>
+        <select asp-for="TransferData.ToAccountId" class="form-control" asp-items="Model.AccountList">
+            <option value="">-- Select Account --</option>
+        </select>
+        <span asp-validation-for="TransferData.ToAccountId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="TransferData.Amount">Amount</label>
+        <input asp-for="TransferData.Amount" class="form-control" />
+        <span asp-validation-for="TransferData.Amount" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Transfer</button>
+    <a class="btn btn-secondary"
+       asp-page="/Transactions/Transaction"
+       asp-route-accountId="@Model.TransferData.FromAccountId"
+       asp-route-customerId="@Model.CustomerId">
+        Back
+    </a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

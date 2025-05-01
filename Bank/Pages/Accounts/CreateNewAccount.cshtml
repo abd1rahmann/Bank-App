@@ -1,0 +1,32 @@
+﻿@page
+@model Bank.Pages.Accounts.CreateNewAccountModel
+@{
+    Layout = "_DashboardLayout";
+}
+<h1>Create a new Account</h1>
+
+
+
+<form method="post" asp-page-handler="OnPost">
+    <div>
+        <input type="hidden" name="CustomerId" value="@Model.CustomerId" />
+    </div>
+    <div class="form-group">
+        <label asp-for="newAccount.Frequency">Frequency</label>
+        <select class="form-control" asp-for="newAccount.Frequency" asp-items="Model.Frequencies">
+            <option value="">Choose</option>
+        </select>
+        <span asp-validation-for="newAccount.Frequency" class="text-danger">  </span>
+    </div>
+    <div class="form-group">
+        <label for="balance">Balance: </label>
+        <input type="text" class="form-control" id="balance" name="newAccount.Balance" asp-for="newAccount.Balance" />
+        <span asp-validation-for="newAccount.Balance" class="text-danger"></span>
+    </div>
+
+    <button type="submit" name="submit" class="btn btn-primary" asp-route-id="@Model.CustomerId">Create Account</button>
+    <a class="btn btn-secondary"
+       asp-page="/Customer/Customer" asp-route-id="@Model.CustomerId">
+        Back
+    </a>
+</form>
