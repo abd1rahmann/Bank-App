@@ -43,7 +43,17 @@ namespace Bank
 
             using (var scope = app.Services.CreateScope())
             {
-                scope.ServiceProvider.GetService<DataInitializer>().SeedData();
+                try
+                {
+                    var initializer = scope.ServiceProvider.GetRequiredService<DataInitializer>();
+                    initializer.SeedData();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"?? FEL vid seedning: {ex.Message}");
+                    Console.WriteLine(ex.StackTrace);
+                    throw; // Viktigt så vi får samma 500-fel, men nu med logg
+                }
             }
 
 

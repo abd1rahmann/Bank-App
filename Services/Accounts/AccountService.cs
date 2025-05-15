@@ -57,7 +57,7 @@ namespace Services.Accounts
                 var dispositionAccToDelete = _bankAppDataContext.Dispositions.Where(d => d.AccountId == accountId).ToList();
                 foreach (var disp in dispositionAccToDelete)
                 {
-                    _bankAppDataContext.Remove(disp);
+                    _bankAppDataContext.Dispositions.Remove(disp);
                 }
 
                 if (dispositionAccToDelete.Any())
