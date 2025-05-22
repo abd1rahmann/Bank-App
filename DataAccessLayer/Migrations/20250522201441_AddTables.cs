@@ -5,10 +5,51 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataAccessLayer.Migrations
 {
-    public partial class InitialCreate : Migration
+    /// <inheritdoc />
+    public partial class AddTables : Migration
     {
+        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AlterDatabase(
+                collation: "SQL_Latin1_General_CP1_CI_AS");
+
+            //migrationBuilder.AlterColumn<string>(
+            //    name: "Name",
+            //    table: "AspNetUserTokens",
+            //    type: "nvarchar(128)",
+            //    maxLength: 128,
+            //    nullable: false,
+            //    oldClrType: typeof(string),
+            //    oldType: "nvarchar(450)");
+
+            //migrationBuilder.AlterColumn<string>(
+            //    name: "LoginProvider",
+            //    table: "AspNetUserTokens",
+            //    type: "nvarchar(128)",
+            //    maxLength: 128,
+            //    nullable: false,
+            //    oldClrType: typeof(string),
+            //    oldType: "nvarchar(450)");
+
+            //migrationBuilder.AlterColumn<string>(
+            //    name: "ProviderKey",
+            //    table: "AspNetUserLogins",
+            //    type: "nvarchar(128)",
+            //    maxLength: 128,
+            //    nullable: false,
+            //    oldClrType: typeof(string),
+            //    oldType: "nvarchar(450)");
+
+            //migrationBuilder.AlterColumn<string>(
+            //    name: "LoginProvider",
+            //    table: "AspNetUserLogins",
+            //    type: "nvarchar(128)",
+            //    maxLength: 128,
+            //    nullable: false,
+            //    oldClrType: typeof(string),
+            //    oldType: "nvarchar(450)");
+
             migrationBuilder.CreateTable(
                 name: "Accounts",
                 columns: table => new
@@ -21,7 +62,7 @@ namespace DataAccessLayer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Accounts", x => x.AccountId);
+                    table.PrimaryKey("PK_account", x => x.AccountId);
                 });
 
             migrationBuilder.CreateTable(
@@ -81,7 +122,7 @@ namespace DataAccessLayer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Loans", x => x.LoanId);
+                    table.PrimaryKey("PK_loan", x => x.LoanId);
                     table.ForeignKey(
                         name: "FK_Loans_Accounts",
                         column: x => x.AccountId,
@@ -129,7 +170,7 @@ namespace DataAccessLayer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Transactions", x => x.TransactionId);
+                    table.PrimaryKey("PK_trans2", x => x.TransactionId);
                     table.ForeignKey(
                         name: "FK_Transactions_Accounts",
                         column: x => x.AccountId,
@@ -149,7 +190,7 @@ namespace DataAccessLayer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Dispositions", x => x.DispositionId);
+                    table.PrimaryKey("PK_disposition", x => x.DispositionId);
                     table.ForeignKey(
                         name: "FK_Dispositions_Accounts",
                         column: x => x.AccountId,
@@ -187,25 +228,102 @@ namespace DataAccessLayer.Migrations
                         principalColumn: "DispositionId");
                 });
 
-            // Indexes
-            migrationBuilder.CreateIndex(name: "IX_Dispositions_AccountId", table: "Dispositions", column: "AccountId");
-            migrationBuilder.CreateIndex(name: "IX_Dispositions_CustomerId", table: "Dispositions", column: "CustomerId");
-            migrationBuilder.CreateIndex(name: "IX_Cards_DispositionId", table: "Cards", column: "DispositionId");
-            migrationBuilder.CreateIndex(name: "IX_Loans_AccountId", table: "Loans", column: "AccountId");
-            migrationBuilder.CreateIndex(name: "IX_PermenentOrder_AccountId", table: "PermenentOrder", column: "AccountId");
-            migrationBuilder.CreateIndex(name: "IX_Transactions_AccountId", table: "Transactions", column: "AccountId");
+            migrationBuilder.CreateIndex(
+                name: "IX_Cards_DispositionId",
+                table: "Cards",
+                column: "DispositionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Dispositions_AccountId",
+                table: "Dispositions",
+                column: "AccountId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Dispositions_CustomerId",
+                table: "Dispositions",
+                column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Loans_AccountId",
+                table: "Loans",
+                column: "AccountId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PermenentOrder_AccountId",
+                table: "PermenentOrder",
+                column: "AccountId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Transactions_AccountId",
+                table: "Transactions",
+                column: "AccountId");
         }
 
+        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(name: "Cards");
-            migrationBuilder.DropTable(name: "Loans");
-            migrationBuilder.DropTable(name: "PermenentOrder");
-            migrationBuilder.DropTable(name: "Transactions");
-            migrationBuilder.DropTable(name: "User");
-            migrationBuilder.DropTable(name: "Dispositions");
-            migrationBuilder.DropTable(name: "Accounts");
-            migrationBuilder.DropTable(name: "Customers");
+            migrationBuilder.DropTable(
+                name: "Cards");
+
+            migrationBuilder.DropTable(
+                name: "Loans");
+
+            migrationBuilder.DropTable(
+                name: "PermenentOrder");
+
+            migrationBuilder.DropTable(
+                name: "Transactions");
+
+            migrationBuilder.DropTable(
+                name: "User");
+
+            migrationBuilder.DropTable(
+                name: "Dispositions");
+
+            migrationBuilder.DropTable(
+                name: "Accounts");
+
+            migrationBuilder.DropTable(
+                name: "Customers");
+
+            migrationBuilder.AlterDatabase(
+                oldCollation: "SQL_Latin1_General_CP1_CI_AS");
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Name",
+                table: "AspNetUserTokens",
+                type: "nvarchar(450)",
+                nullable: false,
+                oldClrType: typeof(string),
+                oldType: "nvarchar(128)",
+                oldMaxLength: 128);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "LoginProvider",
+                table: "AspNetUserTokens",
+                type: "nvarchar(450)",
+                nullable: false,
+                oldClrType: typeof(string),
+                oldType: "nvarchar(128)",
+                oldMaxLength: 128);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "ProviderKey",
+                table: "AspNetUserLogins",
+                type: "nvarchar(450)",
+                nullable: false,
+                oldClrType: typeof(string),
+                oldType: "nvarchar(128)",
+                oldMaxLength: 128);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "LoginProvider",
+                table: "AspNetUserLogins",
+                type: "nvarchar(450)",
+                nullable: false,
+                oldClrType: typeof(string),
+                oldType: "nvarchar(128)",
+                oldMaxLength: 128);
         }
     }
 }
