@@ -16,8 +16,16 @@ namespace Bank
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            // Läs rätt konfig beroende på miljö
+            builder.Configuration
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
+                .AddEnvironmentVariables();
 
-            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+            // Hämta rätt connection string
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
             builder.Services.AddDbContext<BankAppDataContext>(options =>
                 options.UseSqlServer(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -30,14 +38,12 @@ namespace Bank
             builder.Services.AddScoped<ICustomersService, CustomersService>();
             builder.Services.AddTransient<IAccountService, AccountService>();
             builder.Services.AddScoped<ICustomerService, CustomerService>();
-			builder.Services.AddScoped<ICountriesService, CountriesService>();
-			builder.Services.AddScoped<IGenderService, GenderService>();
-			builder.Services.AddScoped<ITransactionService, TransactionService>();
-
+            builder.Services.AddScoped<ICountriesService, CountriesService>();
+            builder.Services.AddScoped<IGenderService, GenderService>();
+            builder.Services.AddScoped<ITransactionService, TransactionService>();
 
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddRazorPages();
-
 
             var app = builder.Build();
 
@@ -52,10 +58,9 @@ namespace Bank
                 {
                     Console.WriteLine($"?? FEL vid seedning: {ex.Message}");
                     Console.WriteLine(ex.StackTrace);
-                    throw; // Viktigt så vi får samma 500-fel, men nu med logg
+                    throw; 
                 }
             }
-
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -65,19 +70,14 @@ namespace Bank
             else
             {
                 app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
-
             app.UseAuthorization();
-
             app.MapRazorPages();
-
             app.Run();
         }
     }

@@ -21,9 +21,11 @@ namespace Bank.Pages.Customer
             _countriesService = countriesService;
             _genderService = genderService;
         }
+
         public NewCustomerViewModel CustomerVm { get; set; }
         public List<SelectListItem> Countries { get; set; }
         public List<SelectListItem> TwoGenders { get; set; }
+        public List<SelectListItem> CountryCodes { get; set; }
 
         public void OnGet()
         {
@@ -40,6 +42,14 @@ namespace Bank.Pages.Customer
                     Text = g,
                     Value = g
                 });
+
+            CountryCodes = new List<SelectListItem>
+            {
+                new SelectListItem { Value = "SE", Text = "SE" },
+                new SelectListItem { Value = "NO", Text = "NO" },
+                new SelectListItem { Value = "FI", Text = "FI" },
+                new SelectListItem { Value = "DK", Text = "DK" }
+            };
         }
 
         public IActionResult OnPost()
@@ -66,6 +76,8 @@ namespace Bank.Pages.Customer
                 TempData["SuccessMessage"] = "New customer created successfully!";
                 return RedirectToPage("/Customers/Customers");
             }
+
+            OnGet();
             return Page();
         }
     }

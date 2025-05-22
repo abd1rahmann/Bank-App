@@ -56,9 +56,12 @@
 
             <div class="form-group">
                 <label asp-for="CustomerVm.CountryCode">Country Code</label>
-                <input class="form-control" asp-for="CustomerVm.CountryCode">
+                <select class="form-control" asp-for="CustomerVm.CountryCode" asp-items="Model.CountryCodes">
+                    <option value="" disabled selected>Select country code</option>
+                </select>
                 <span asp-validation-for="CustomerVm.CountryCode" class="text-danger"></span>
             </div>
+
 
             <div class="form-group">
                 <label asp-for="CustomerVm.Birthday">Birthday</label>
