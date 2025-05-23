@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(BankAppDataContext))]
-    [Migration("20250522201441_AddTables")]
-    partial class AddTables
+    [Migration("20250522210006_AddIdentityBack")]
+    partial class AddIdentityBack
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
