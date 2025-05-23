@@ -13,7 +13,7 @@ namespace DataAccessLayer.Migrations
                 table: "Customers",
                 type: "bit",
                 nullable: false,
-                defaultValue: true); // Alla befintliga kunder får true, nya också
+                defaultValue: true); 
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
